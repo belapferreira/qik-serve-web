@@ -1,7 +1,12 @@
+import { Restaurant } from '@/@types/restaurant';
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  restaurant: {},
+type RestaurantState = {
+  restaurant: Restaurant | null;
+};
+
+const initialState: RestaurantState = {
+  restaurant: null,
 };
 
 const restaurantSlice = createSlice({
