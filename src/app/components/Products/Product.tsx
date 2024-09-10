@@ -26,7 +26,9 @@ export const Product = (props: Product) => {
         <h4 className="text-gray-900">{title}</h4>
 
         {description && (
-          <p className="line-clamp-1 font-light text-gray-600">{description}</p>
+          <p className="line-clamp-2 font-light text-gray-600 md:line-clamp-1">
+            {description}
+          </p>
         )}
 
         <strong className="text-gray-600">{`${currencySymbol} ${priceFormatted}`}</strong>

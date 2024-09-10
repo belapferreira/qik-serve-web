@@ -22,7 +22,9 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
           <Accordion.Header>
             <Accordion.Trigger className="group flex w-full">
               <div className="flex w-full items-center justify-between pb-3 pt-8 text-gray-900">
-                <h3 className="text-2xl">{category.name}</h3>
+                <h3 className="text-2xl" id={category.name}>
+                  {category.name}
+                </h3>
 
                 <IoChevronDown
                   size={20}

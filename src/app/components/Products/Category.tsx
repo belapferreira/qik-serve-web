@@ -3,12 +3,14 @@ import { RootState } from '@/lib/redux/store';
 import Image from 'next/image';
 
 type CategoryProps = {
-  title: string;
+  name: string;
   imageSrc: string;
+  activeCategory: string;
+  handleClick: (name: string) => void;
 };
 
 export const Category = (props: CategoryProps) => {
-  const { title, imageSrc } = props;
+  const { name, imageSrc, activeCategory, handleClick } = props;
 
   const { restaurant } = useAppSelector(
     (store: RootState) => store?.restaurant
@@ -18,10 +20,14 @@ export const Category = (props: CategoryProps) => {
 
   const primaryColour = webSettings?.primaryColour;
 
-  const isActive = title === 'Burgers';
+  const isActive = name === activeCategory;
 
   return (
-    <div className="relative flex flex-col items-center gap-6 px-[11px] pb-2">
+    <a
+      href={`#${name}`}
+      onClick={() => handleClick(name)}
+      className="relative flex flex-col items-center gap-6 px-[11px] pb-2"
+    >
       <div
         className="relative size-[5.125rem] overflow-hidden rounded-full border-2 border-transparent"
         {...(isActive && { style: { borderColor: primaryColour } })}
@@ -30,18 +36,18 @@ export const Category = (props: CategoryProps) => {
           src={imageSrc}
           fill
           className="rounded-full object-cover p-0.5"
-          alt={title}
+          alt={name}
         />
       </div>
 
-      <strong className="h-9 font-semibold text-gray-900">{title}</strong>
+      <strong className="h-9 font-semibold text-gray-900">{name}</strong>
 
       {isActive && (
         <span
-          className="absolute bottom-0 left-0 hidden h-0.5 w-full bg-white md:inline-flex"
+          className="absolute bottom-0 left-0 h-0.5 w-full"
           style={{ background: primaryColour }}
         />
       )}
-    </div>
+    </a>
   );
 };
