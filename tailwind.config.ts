@@ -15,6 +15,10 @@ const config: Config = {
         white: '#ffffff',
         background: '#eeeeee',
         foreground: '#F8F9FA',
+        gray: {
+          400: '#8A94A4',
+          700: '#2C2C2C',
+        },
       },
     },
   },
