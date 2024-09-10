@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { restaurant } from './slices/restaurant';
+import { menu } from './slices/menu';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       restaurant,
+      menu,
     },
   });
 };

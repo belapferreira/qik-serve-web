@@ -4,6 +4,7 @@ import { fetcher } from '@/utils/fetcher';
 import { Restaurant } from '@/@types/restaurant';
 import { Header } from '@/app/components/Header';
 import { notFound } from 'next/navigation';
+import { Menu } from '@/@types/menu';
 
 type Props = {
   children: ReactNode;
@@ -39,10 +40,19 @@ export default async function PagesLayout(props: Props) {
       params: { id },
     } = props;
 
-    const restaurant = await fetcher(`/venue/${id}`);
+    const restaurant = await fetcher<Restaurant>(`/venue/${id}`, {
+      next: {
+        revalidate: 60 * 10, // 10 minutes
+      },
+    });
+    const menu = await fetcher<Menu>(`/menu`, {
+      next: {
+        revalidate: 60 * 10, // 10 minutes
+      },
+    });
 
     return (
-      <StoreProvider restaurant={restaurant}>
+      <StoreProvider restaurant={restaurant} menu={menu}>
         <div className="flex min-h-screen w-full flex-col items-center">
           <Header />
 

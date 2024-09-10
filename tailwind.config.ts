@@ -17,7 +17,9 @@ const config: Config = {
         foreground: '#F8F9FA',
         gray: {
           400: '#8A94A4',
+          600: '#464646',
           700: '#2C2C2C',
+          900: '#121212',
         },
       },
     },
