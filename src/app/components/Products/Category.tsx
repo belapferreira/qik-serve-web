@@ -18,11 +18,13 @@ export const Category = (props: CategoryProps) => {
 
   const primaryColour = webSettings?.primaryColour;
 
+  const isActive = title === 'Burgers';
+
   return (
-    <div className="flex flex-col items-center gap-6 px-[11px] pb-2">
+    <div className="relative flex flex-col items-center gap-6 px-[11px] pb-2">
       <div
-        className="relative size-[5.125rem] overflow-hidden rounded-full border-2"
-        style={{ borderColor: primaryColour }}
+        className="relative size-[5.125rem] overflow-hidden rounded-full border-2 border-transparent"
+        {...(isActive && { style: { borderColor: primaryColour } })}
       >
         <Image
           src={imageSrc}
@@ -32,7 +34,14 @@ export const Category = (props: CategoryProps) => {
         />
       </div>
 
-      <strong className="font-semibold text-gray-900">{title}</strong>
+      <strong className="h-9 font-semibold text-gray-900">{title}</strong>
+
+      {isActive && (
+        <span
+          className="absolute bottom-0 left-0 hidden h-0.5 w-full bg-white md:inline-flex"
+          style={{ background: primaryColour }}
+        />
+      )}
     </div>
   );
 };

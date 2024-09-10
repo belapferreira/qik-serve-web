@@ -38,7 +38,7 @@ type Product = {
   modifiers?: Modifier[];
 };
 
-type Section = {
+export type Section = {
   id: number;
   name: string;
   description?: null;

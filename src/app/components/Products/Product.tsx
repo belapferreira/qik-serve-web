@@ -26,14 +26,14 @@ export const Product = (props: Product) => {
         <h4 className="text-gray-900">{title}</h4>
 
         {description && (
-          <p className="text-light line-clamp-1 text-gray-600">{description}</p>
+          <p className="line-clamp-1 font-light text-gray-600">{description}</p>
         )}
 
         <strong className="text-gray-600">{`${currencySymbol} ${priceFormatted}`}</strong>
       </div>
 
       {image && (
-        <div className="relative h-[5.313rem] w-32">
+        <div className="relative h-[5.313rem] w-32 shrink-0">
           <Image
             src={image}
             alt={title}
