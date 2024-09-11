@@ -34,14 +34,8 @@ export const CategoryList = ({ categories }: CategoryListProps) => {
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Content>
-            {category?.items.map((category) => (
-              <Product
-                key={category.id}
-                title={category?.name}
-                description={category?.description}
-                image={category?.images && category?.images[0]?.image}
-                price={category?.price}
-              />
+            {category?.items.map((product) => (
+              <Product key={product.id} {...product} />
             ))}
           </Accordion.Content>
         </Accordion.Item>

@@ -16,7 +16,9 @@ const config: Config = {
         background: '#eeeeee',
         foreground: '#F8F9FA',
         gray: {
+          200: '#DADADA',
           400: '#8A94A4',
+          500: '#5F5F5F',
           600: '#464646',
           700: '#2C2C2C',
           900: '#121212',

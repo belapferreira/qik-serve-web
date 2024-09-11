@@ -11,3 +11,15 @@
 body {
   @apply bg-background text-white
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #DADADA;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #8A94A470;
+  border-radius: 10px;
+}
