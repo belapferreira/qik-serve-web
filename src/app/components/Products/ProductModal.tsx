@@ -9,7 +9,7 @@ import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { ActionButtons } from '@/app/components/ActionButtons';
 import { Button } from '@/app/components/Button';
-import { add } from '@/lib/redux/slices/cart';
+import { add, update } from '@/lib/redux/slices/cart';
 import { SelectedProduct } from '@/@types/cart';
 
 type ProductModalProps = ComponentProps<typeof Dialog.Root> & {
@@ -30,6 +30,8 @@ export const ProductModal = (props: ProductModalProps) => {
   const { restaurant } = useAppSelector(
     (store: RootState) => store?.restaurant
   );
+
+  const { cart } = useAppSelector((store: RootState) => store?.cart);
 
   const primaryColour = restaurant?.webSettings?.primaryColour;
 
@@ -78,18 +80,32 @@ export const ProductModal = (props: ProductModalProps) => {
     (event: MouseEvent) => {
       event.preventDefault();
 
-      const currentPrice = firstModifier ? modifierSelected?.price : price;
+      const existingProduct = cart?.products?.find(
+        (product) =>
+          product.id === id && product.modifierName === modifierSelected?.name
+      );
 
-      const product: SelectedProduct = {
-        id,
-        name,
-        amount,
-        price: currentPrice || 0,
-        ccySymbol: currencySymbol || '',
-        modifierName: modifierSelected?.name,
-      };
+      if (existingProduct) {
+        dispatch(
+          update({
+            ...existingProduct,
+            amount: existingProduct.amount + amount,
+          })
+        );
+      } else {
+        const currentPrice = firstModifier ? modifierSelected?.price : price;
 
-      dispatch(add(product));
+        const product: SelectedProduct = {
+          id,
+          name,
+          amount,
+          price: currentPrice || 0,
+          ccySymbol: currencySymbol || '',
+          modifierName: modifierSelected?.name,
+        };
+
+        dispatch(add(product));
+      }
 
       setAmount(1);
       setModifierSelected(null);
@@ -105,6 +121,7 @@ export const ProductModal = (props: ProductModalProps) => {
       onOpenChange,
       firstModifier,
       currencySymbol,
+      cart?.products,
       modifierSelected?.name,
       modifierSelected?.price,
     ]

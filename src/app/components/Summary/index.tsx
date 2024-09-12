@@ -50,7 +50,10 @@ export const Summary = (props: SummaryProps) => {
         <div className="flex flex-col max-md:h-full">
           <div className="flex flex-col gap-4 px-4 py-2">
             {cart.products.map((product) => (
-              <CartProduct key={product.id} product={product} />
+              <CartProduct
+                key={`${product.id}-${product.amount}`}
+                product={product}
+              />
             ))}
           </div>
 

@@ -23,17 +23,16 @@ const cartSlice = createSlice({
       };
     },
     update: (state, action) => {
-      const otherProducts = state.cart?.products?.filter(
-        (product) => product.id !== action.payload.id
-      );
+      const products = state.cart?.products?.map((product) => {
+        if (product.id === action.payload.id) {
+          return action.payload;
+        }
+        return product;
+      });
 
-      return {
-        ...state,
-        cart: {
-          ...state.cart,
-          products: [...(otherProducts ?? []), action.payload],
-        },
-      };
+      if (state.cart && products) {
+        state.cart.products = products;
+      }
     },
   },
 });
