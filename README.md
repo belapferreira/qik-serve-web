@@ -32,7 +32,7 @@
 
 As a requirement of the **Qik Serve** technical assessment instructions, the library used in this project was React using the Next.js framework. Currently, the React's team recommends choosing one of the frameworks popular in the community:
 
-> If you want to build a new app or a new website fully with React, we recommend picking one of the React-powered frameworks popular in the community. Frameworks provide features that most apps and sites eventually need, including routing, data fetching, and generating HTML.
+> If you want to build a new app or a new website fully with React, we recommend picking one of the React-powered frameworks popular in the community.
 
 **Major assumptions or design choices**
 
