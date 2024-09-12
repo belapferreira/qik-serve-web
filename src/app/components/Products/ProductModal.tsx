@@ -5,7 +5,8 @@ import { cn } from '@/utils/cn';
 import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import { ComponentProps, useState } from 'react';
-import { IoAdd, IoClose, IoRemove } from 'react-icons/io5';
+import { IoClose } from 'react-icons/io5';
+import { ActionButtons } from '../ActionButtons';
 
 type ProductModalProps = ComponentProps<typeof Dialog.Root> & {
   product: Product;
@@ -117,18 +118,7 @@ export const ProductModal = (props: ProductModalProps) => {
             )}
 
             <div className="flex w-full flex-col items-center gap-2.5 bg-white/30 p-6 pt-2 max-md:mt-5 md:absolute md:bottom-0">
-              <div className="flex items-center gap-4">
-                <button className="flex size-8 items-center justify-center rounded-full bg-gray-200">
-                  <IoRemove size={24} className="text-gray-500" />
-                </button>
-                <strong className="text-2xl text-gray-900">1</strong>
-                <button
-                  className="flex size-8 items-center justify-center rounded-full"
-                  style={{ background: primaryColour }}
-                >
-                  <IoAdd size={24} className="text-white" />
-                </button>
-              </div>
+              <ActionButtons />
 
               <button
                 className="flex h-12 w-full items-center justify-center rounded-[40px]"
