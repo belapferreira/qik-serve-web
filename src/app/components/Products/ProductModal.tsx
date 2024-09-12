@@ -1,23 +1,31 @@
-import { Product } from '@/@types/menu';
-import { useAppSelector } from '@/lib/redux/hooks';
+import { MouseEvent } from 'react';
+import { Product, ProductModifier } from '@/@types/menu';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
 import { RootState } from '@/lib/redux/store';
 import { cn } from '@/utils/cn';
 import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { ActionButtons } from '../ActionButtons';
+import { ActionButtons } from '@/app/components/ActionButtons';
+import { Button } from '@/app/components/Button';
+import { add } from '@/lib/redux/slices/cart';
+import { SelectedProduct } from '@/@types/cart';
 
 type ProductModalProps = ComponentProps<typeof Dialog.Root> & {
   product: Product;
 };
 
 export const ProductModal = (props: ProductModalProps) => {
-  const [modifierSelected, setModifierSelected] = useState('');
+  const [modifierSelected, setModifierSelected] =
+    useState<ProductModifier | null>(null);
+  const [amount, setAmount] = useState(1);
 
   const { open, onOpenChange, product } = props;
 
-  const { name, description, images, modifiers, price } = product;
+  const { id, name, description, images, modifiers, price } = product;
+
+  const dispatch = useAppDispatch();
 
   const { restaurant } = useAppSelector(
     (store: RootState) => store?.restaurant
@@ -27,9 +35,19 @@ export const ProductModal = (props: ProductModalProps) => {
 
   const currencySymbol = restaurant?.ccySymbol;
 
-  const priceFormatted = price.toFixed(2);
-
   const firstModifier = modifiers?.[0];
+
+  const priceFormatted = useMemo(() => {
+    let priceUpdated: number;
+
+    if (firstModifier && modifierSelected) {
+      priceUpdated = amount * modifierSelected.price;
+    } else {
+      priceUpdated = price * amount;
+    }
+
+    return priceUpdated.toFixed(2);
+  }, [amount, firstModifier, modifierSelected, price]);
 
   const canSelectOneOption =
     firstModifier?.minChoices === 1 && firstModifier?.maxChoices === 1;
@@ -38,7 +56,59 @@ export const ProductModal = (props: ProductModalProps) => {
     ? 'Select 1 option'
     : `Select between ${firstModifier?.minChoices} and ${firstModifier?.maxChoices === 1} options`;
 
-  // left-0 bottom translate-x-0 translate-y-0
+  const isMainButtonDisabled = !!firstModifier && !modifierSelected;
+
+  const handleSelectModifier = (modifier: ProductModifier) => {
+    setModifierSelected(modifier);
+  };
+
+  const handleAddToCart = useCallback((event: MouseEvent) => {
+    event.preventDefault();
+
+    setAmount((prevState) => prevState + 1);
+  }, []);
+
+  const handleRemoveFromCart = useCallback((event: MouseEvent) => {
+    event.preventDefault();
+
+    setAmount((prevState) => prevState - 1);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (event: MouseEvent) => {
+      event.preventDefault();
+
+      const currentPrice = firstModifier ? modifierSelected?.price : price;
+
+      const product: SelectedProduct = {
+        id,
+        name,
+        amount,
+        price: currentPrice || 0,
+        ccySymbol: currencySymbol || '',
+        modifierName: modifierSelected?.name,
+      };
+
+      dispatch(add(product));
+
+      setAmount(1);
+      setModifierSelected(null);
+
+      onOpenChange && onOpenChange(false);
+    },
+    [
+      id,
+      name,
+      price,
+      amount,
+      dispatch,
+      onOpenChange,
+      firstModifier,
+      currencySymbol,
+      modifierSelected?.name,
+      modifierSelected?.price,
+    ]
+  );
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -56,7 +126,7 @@ export const ProductModal = (props: ProductModalProps) => {
             </div>
           )}
 
-          <div className="overflow-y-auto bg-foreground">
+          <form className="overflow-y-auto bg-foreground">
             <div
               className={cn(
                 'p- flex flex-col bg-white p-4',
@@ -76,7 +146,7 @@ export const ProductModal = (props: ProductModalProps) => {
                   <p className="text-gray-500">{selectText}</p>
                 </div>
 
-                <form className="relativeflex h-full flex-col bg-white max-md:border-b max-md:border-background">
+                <div className="relativeflex h-full flex-col bg-white max-md:border-b max-md:border-background">
                   <div className="flex h-full max-h-[17.75rem] w-full flex-col md:overflow-y-auto md:pb-28">
                     {firstModifier?.items.map((modifier) => {
                       return (
@@ -97,14 +167,12 @@ export const ProductModal = (props: ProductModalProps) => {
                               name="modifier"
                               value={modifier.name}
                               className="peer absolute h-full w-full opacity-0"
-                              onChange={() =>
-                                setModifierSelected(modifier.name)
-                              }
+                              onChange={() => handleSelectModifier(modifier)}
                             />
 
                             <span
                               className="h-full w-full rounded-full border-[3px] border-gray-500 peer-checked:border-[7px]"
-                              {...(modifierSelected === modifier.name && {
+                              {...(modifierSelected?.name === modifier.name && {
                                 style: { borderColor: primaryColour },
                               })}
                             />
@@ -113,19 +181,26 @@ export const ProductModal = (props: ProductModalProps) => {
                       );
                     })}
                   </div>
-                </form>
+                </div>
               </>
             )}
 
             <div className="flex w-full flex-col items-center gap-2.5 bg-white/30 p-6 pt-2 max-md:mt-5 md:absolute md:bottom-0">
-              <ActionButtons />
+              <ActionButtons
+                amount={amount}
+                handleAddToCart={handleAddToCart}
+                handleRemoveFromCart={handleRemoveFromCart}
+              />
 
-              <button
-                className="flex h-12 w-full items-center justify-center rounded-[40px]"
-                style={{ background: primaryColour }}
-              >{`Add to Order • ${currencySymbol} ${priceFormatted}`}</button>
+              <Button
+                onClick={handleSubmit}
+                disabled={!!firstModifier && !modifierSelected}
+                {...(!isMainButtonDisabled && {
+                  style: { background: primaryColour },
+                })}
+              >{`Add to Order • ${currencySymbol} ${priceFormatted}`}</Button>
             </div>
-          </div>
+          </form>
 
           <Dialog.Close asChild>
             <button className="absolute right-4 top-4 flex size-7 items-center justify-center rounded-full bg-white transition-all duration-300 hover:brightness-75">
