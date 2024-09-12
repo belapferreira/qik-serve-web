@@ -25,9 +25,9 @@ export const ActionButtons = (props: ActionButtonsProps) => {
     <div data-size={size} className="group flex items-center gap-4">
       <button
         onClick={handleRemoveFromCart}
-        disabled={amount === 1}
+        disabled={amount === 0}
         className="flex size-8 items-center justify-center rounded-full bg-gray-200 text-white disabled:text-gray-500 group-data-[size='sm']:size-5"
-        {...(amount > 1 && { style: { background: primaryColour } })}
+        {...(amount >= 1 && { style: { background: primaryColour } })}
       >
         <IoRemove size={24} />
       </button>
