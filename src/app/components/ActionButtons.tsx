@@ -1,7 +1,6 @@
 'use client';
 
-import { useAppSelector } from '@/lib/redux/hooks';
-import { RootState } from '@/lib/redux/store';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 import { MouseEvent } from 'react';
 import { IoAdd, IoRemove } from 'react-icons/io5';
 
@@ -15,11 +14,7 @@ type ActionButtonsProps = {
 export const ActionButtons = (props: ActionButtonsProps) => {
   const { size, amount, handleAddToCart, handleRemoveFromCart } = props;
 
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
-
-  const primaryColour = restaurant?.webSettings?.primaryColour;
+  const { primaryColour } = useRestaurantSettings();
 
   return (
     <div data-size={size} className="group flex items-center gap-4">

@@ -5,18 +5,10 @@ import { IoMenuOutline } from 'react-icons/io5';
 import { NAV_ITEMS } from '@/constants';
 import { NavItem } from './NavItem';
 import Image from 'next/image';
-import { useAppSelector } from '@/lib/redux/hooks';
-import { RootState } from '@/lib/redux/store';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 
 export const Header = () => {
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
-
-  const { webSettings } = restaurant || {};
-
-  const navBackgroundColour = webSettings?.navBackgroundColour;
-  const bannerImage = webSettings?.bannerImage;
+  const { navBackgroundColour, bannerImage, name } = useRestaurantSettings();
 
   return (
     <header
@@ -41,7 +33,7 @@ export const Header = () => {
         <Image
           src={bannerImage}
           fill
-          alt={restaurant?.name || 'Restaurant'}
+          alt={name || 'Restaurant'}
           className="object-cover"
           quality={100}
         />

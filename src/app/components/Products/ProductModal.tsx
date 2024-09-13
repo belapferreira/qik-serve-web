@@ -11,6 +11,7 @@ import { ActionButtons } from '@/app/components/ActionButtons';
 import { Button } from '@/app/components/Button';
 import { add, update } from '@/lib/redux/slices/cart';
 import { SelectedProduct } from '@/@types/cart';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 
 type ProductModalProps = ComponentProps<typeof Dialog.Root> & {
   product: Product;
@@ -27,15 +28,9 @@ export const ProductModal = (props: ProductModalProps) => {
 
   const dispatch = useAppDispatch();
 
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
+  const { primaryColour, currencySymbol } = useRestaurantSettings();
 
   const { cart } = useAppSelector((store: RootState) => store?.cart);
-
-  const primaryColour = restaurant?.webSettings?.primaryColour;
-
-  const currencySymbol = restaurant?.ccySymbol;
 
   const firstModifier = modifiers?.[0];
 

@@ -6,22 +6,18 @@ import { RootState } from '@/lib/redux/store';
 import { Button } from '@/app/components/Button';
 import { cn } from '@/utils/cn';
 import { ComponentProps, useCallback } from 'react';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 
 type SummaryProps = ComponentProps<'div'>;
 
 export const Summary = (props: SummaryProps) => {
   const { cart } = useAppSelector((store: RootState) => store?.cart);
 
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
+  const { currencySymbol, primaryColour } = useRestaurantSettings();
 
   const { className, ...rest } = props;
 
   const isEmpty = !cart?.products.length;
-
-  const currencySymbol = restaurant?.ccySymbol;
-  const primaryColour = restaurant?.webSettings?.primaryColour;
 
   const totalPrice = cart?.products
     .reduce((acc, curr) => {

@@ -1,5 +1,4 @@
-import { useAppSelector } from '@/lib/redux/hooks';
-import { RootState } from '@/lib/redux/store';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 import Image from 'next/image';
 
 type CategoryProps = {
@@ -12,13 +11,7 @@ type CategoryProps = {
 export const Category = (props: CategoryProps) => {
   const { name, imageSrc, activeCategory, handleClick } = props;
 
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
-
-  const { webSettings } = restaurant || {};
-
-  const primaryColour = webSettings?.primaryColour;
+  const { primaryColour } = useRestaurantSettings();
 
   const isActive = name === activeCategory;
 

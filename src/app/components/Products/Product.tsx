@@ -1,20 +1,15 @@
-import { useAppSelector } from '@/lib/redux/hooks';
-import { RootState } from '@/lib/redux/store';
 import Image from 'next/image';
 import { Product as ProductType } from '@/@types/menu';
 import { ProductModal } from './ProductModal';
 import { useCallback, useState } from 'react';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 
 export const Product = (props: ProductType) => {
   const { name, images, description, price } = props || {};
 
   const [openProductModal, setOpenProductModal] = useState(false);
 
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
-
-  const currencySymbol = restaurant?.ccySymbol;
+  const { currencySymbol } = useRestaurantSettings();
 
   const priceFormatted = price.toFixed(2);
 

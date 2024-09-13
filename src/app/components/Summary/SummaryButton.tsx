@@ -8,21 +8,18 @@ import { Button } from '@/app/components/Button';
 import { Summary } from '@/app/components/Summary';
 import { ComponentProps } from 'react';
 import { cn } from '@/utils/cn';
+import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 
 type SummaryButtonProps = ComponentProps<typeof Dialog.Root> & {
   className: string;
 };
 
 export const SummaryButton = (props: SummaryButtonProps) => {
-  const { restaurant } = useAppSelector(
-    (store: RootState) => store?.restaurant
-  );
-
   const { className, ...rest } = props;
 
-  const { cart } = useAppSelector((store: RootState) => store?.cart);
+  const { primaryColour } = useRestaurantSettings();
 
-  const primaryColour = restaurant?.webSettings?.primaryColour;
+  const { cart } = useAppSelector((store: RootState) => store?.cart);
 
   const cartProductsAmount = cart?.products.length ?? 0;
 
