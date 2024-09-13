@@ -66,9 +66,9 @@ As a requirement of the **Qik Serve** technical assessment instructions, the lib
 - [x] Ability to increase and decrease the product amount;
 - [x] Responsive page.
 
-**Todo**
+**Coding**
 
-- [ ] Searching.
+- [ ] Search bar behavior.
 
 ### :gear: Settings
 
