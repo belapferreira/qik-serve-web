@@ -89,7 +89,7 @@ git clone https://github.com/belapferreira/qik-serve-web
 
 ### :beginner: Starting the application
 
-1. Open the code of the repo cloned, create a `.env.local` file and add a new variable called `NEXT_PUBLIC_API_URL` with the API base path.
+1. Open the code of the repo cloned, create a `.env.local` file and add a new variable called `NEXT_PUBLIC_API_URL` with the API base path (this should seem like `${baseUrl}/challenge/`).
 
 2. Through the terminal, go to the directory where the repository was cloned and run the following command:
 
