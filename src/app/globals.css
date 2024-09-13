@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply bg-background text-white
+  @apply md:bg-background text-white
 }
 
 ::-webkit-scrollbar {

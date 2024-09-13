@@ -5,9 +5,9 @@ import { useCallback, useState } from 'react';
 import { useRestaurantSettings } from '@/hooks/useRestaurantSettings';
 
 export const Product = (props: ProductType) => {
-  const { name, images, description, price } = props || {};
-
   const [openProductModal, setOpenProductModal] = useState(false);
+
+  const { name, images, description, price } = props || {};
 
   const { currencySymbol } = useRestaurantSettings();
 
