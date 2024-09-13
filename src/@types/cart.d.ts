@@ -3,6 +3,7 @@ export type SelectedProduct = {
   name: string;
   amount: number;
   modifierName?: string;
+  modifierId?: number;
   price: number;
   ccySymbol: string;
 };

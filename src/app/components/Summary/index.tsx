@@ -5,7 +5,7 @@ import { CartProduct } from './CartProduct';
 import { RootState } from '@/lib/redux/store';
 import { Button } from '@/app/components/Button';
 import { cn } from '@/utils/cn';
-import { ComponentProps } from 'react';
+import { ComponentProps, useCallback } from 'react';
 
 type SummaryProps = ComponentProps<'div'>;
 
@@ -30,6 +30,10 @@ export const Summary = (props: SummaryProps) => {
     }, 0)
     .toFixed(2);
 
+  const handleSubmit = useCallback(() => {
+    alert('Your order has been submitted');
+  }, []);
+
   return (
     <div
       className={cn(
@@ -51,7 +55,7 @@ export const Summary = (props: SummaryProps) => {
           <div className="flex flex-col gap-4 px-4 py-2">
             {cart.products.map((product) => (
               <CartProduct
-                key={`${product.id}-${product.amount}`}
+                key={`${product.id}-${product.modifierId}-${product.amount}`}
                 product={product}
               />
             ))}
@@ -71,7 +75,10 @@ export const Summary = (props: SummaryProps) => {
             </div>
 
             <div className="p-4 max-md:mt-auto">
-              <Button style={{ background: primaryColour }}>
+              <Button
+                onClick={handleSubmit}
+                style={{ background: primaryColour }}
+              >
                 Checkout now
               </Button>
             </div>

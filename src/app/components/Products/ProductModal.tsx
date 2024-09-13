@@ -82,7 +82,7 @@ export const ProductModal = (props: ProductModalProps) => {
 
       const existingProduct = cart?.products?.find(
         (product) =>
-          product.id === id && product.modifierName === modifierSelected?.name
+          product.id === id && product.modifierId === modifierSelected?.id
       );
 
       if (existingProduct) {
@@ -101,6 +101,7 @@ export const ProductModal = (props: ProductModalProps) => {
           amount,
           price: currentPrice || 0,
           ccySymbol: currencySymbol || '',
+          modifierId: modifierSelected?.id,
           modifierName: modifierSelected?.name,
         };
 
@@ -122,8 +123,7 @@ export const ProductModal = (props: ProductModalProps) => {
       firstModifier,
       currencySymbol,
       cart?.products,
-      modifierSelected?.name,
-      modifierSelected?.price,
+      modifierSelected,
     ]
   );
 
