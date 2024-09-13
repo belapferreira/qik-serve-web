@@ -70,6 +70,11 @@ As a requirement of the **Qik Serve** technical assessment instructions, the lib
 
 - [ ] Search bar behavior.
 
+**Todo**
+
+- [ ] Add tests
+- [ ] Add internationalization
+
 ### :gear: Settings
 
 The settings to execute the application on your computer are listed below.
