@@ -1,13 +1,22 @@
 <p align="center">
+  <img src="public/assets/qik-serve-logo.svg" width="456px" height="120px"/>
+</p>
+
+
+<p align="center">
   <strong>
     Qik Server: The easy way to order food
   </strong>
 </p>
 
 > [!IMPORTANT]
-> 👉🏻 Access: Coming soon.
+> 👉🏻 Access: [https://qik-serve-web.vercel.app/](https://qik-serve-web.vercel.app/).
 
 <p>&nbsp;</p>
+
+<p align="center">
+  <img src="public/assets/qik-serve.gif" width="80%" height="80%" max-width="100%" style="border-radius:8px" />
+</p>
 
 <p>&nbsp;</p>
 
