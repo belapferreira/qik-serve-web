@@ -159,7 +159,7 @@ export const ProductModal = (props: ProductModalProps) => {
                 </div>
 
                 <div className="relativeflex h-full flex-col bg-white max-md:border-b max-md:border-background">
-                  <div className="flex h-full max-h-[17.75rem] w-full flex-col md:overflow-y-auto md:pb-28">
+                  <div className="flex h-full max-h-[17.75rem] w-full flex-col md:overflow-y-auto md:pb-36">
                     {firstModifier?.items.map((modifier) => {
                       return (
                         <div
